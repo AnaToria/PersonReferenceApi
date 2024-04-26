@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,13 +20,17 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .IsRequired()
             .IsUnicode();
         builder.Property(person => person.Gender)
-            .HasMaxLength(10)
+            .HasConversion(p => p.ToString(),
+                p=>(Gender)Enum.Parse(typeof(Gender), p))
             .IsRequired();
         builder.Property(person => person.Pin)
             .HasMaxLength(11)
             .IsRequired();
         builder.Property(person => person.BirthDate)
             .IsRequired();
+        builder.Property(person => person.CityId)
+            .IsRequired();
+        
         builder.HasOne(person => person.City)
             .WithMany(city => city.Persons)
             .IsRequired();

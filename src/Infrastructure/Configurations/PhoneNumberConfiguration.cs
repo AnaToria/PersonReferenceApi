@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +12,8 @@ public class PhoneNumberConfiguration : IEntityTypeConfiguration<PhoneNumber>
         builder.ToTable("PhoneNumbers", "dbo");
         builder.HasKey(phoneNumber => phoneNumber.Id);
         builder.Property(phoneNumber => phoneNumber.Type)
-            .HasMaxLength(50)
+            .HasConversion(p => p.ToString(),
+                p=>(PhoneType)Enum.Parse(typeof(PhoneType), p))
             .IsRequired();
         builder.Property(phoneNumber => phoneNumber.Number)
             .HasMaxLength(50)

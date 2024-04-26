@@ -6,6 +6,8 @@ namespace Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     public ICityRepository Cities { get; }
+    public IPersonRepository Persons { get; }
+    public IPhoneNumberRepository PhoneNumbers { get; }
 
     private readonly PersonReferenceDbContext _dbContext;
 
@@ -13,6 +15,8 @@ public class UnitOfWork : IUnitOfWork
     {
         _dbContext = dbContext;
         Cities = new CityRepository(dbContext);
+        Persons = new PersonRepository(dbContext);
+        PhoneNumbers = new PhoneNumberRepository(dbContext);
     }
     
     public Task<int> CommitAsync()

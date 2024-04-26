@@ -1,17 +1,16 @@
+using System.Text.Json.Serialization;
 using Domain.Enums;
 
-namespace Domain.Entities;
+namespace Application.Persons.AddPerson;
 
-public class Person
+public class AddPersonRequest
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))] 
     public Gender Gender { get; set; }
     public string Pin { get; set; }
     public DateTime BirthDate { get; set; }
     public int CityId { get; set; }
-   
-    public City City { get; set; }
-    public List<PhoneNumber> PhoneNumbers { get; set; }
+    public List<PhoneNumberRequest> PhoneNumbers { get; set; }
 }
