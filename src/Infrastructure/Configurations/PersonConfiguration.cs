@@ -28,11 +28,7 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .IsRequired();
         builder.Property(person => person.BirthDate)
             .IsRequired();
-        builder.Property(person => person.CityId)
-            .IsRequired();
-        
-        builder.HasOne(person => person.City)
-            .WithMany(city => city.Persons)
-            .IsRequired();
+        builder.HasOne(person => person.City);
+        builder.HasMany(person => person.PhoneNumbers);
     }
 }

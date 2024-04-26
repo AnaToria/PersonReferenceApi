@@ -1,8 +1,6 @@
 using System.Text.Json.Serialization;
 using Api.Middlewares;
-using Application.Common.Models;
 using Application.Extensions;
-using FluentValidation;
 using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +16,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

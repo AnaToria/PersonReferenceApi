@@ -10,8 +10,24 @@ public class Person
     public Gender Gender { get; set; }
     public string Pin { get; set; }
     public DateTime BirthDate { get; set; }
-    public int CityId { get; set; }
-   
     public City City { get; set; }
     public List<PhoneNumber> PhoneNumbers { get; set; }
+
+    private Person()
+    {
+        PhoneNumbers = new List<PhoneNumber>();
+    }
+
+    public static Person Create(string name, string surname, Gender gender, string pin, DateTime birthDate,
+        City city, List<PhoneNumber> phoneNumbers) =>
+        new()
+        {
+            Name = name,
+            Surname = surname,
+            Gender = gender,
+            Pin = pin,
+            BirthDate = birthDate,
+            City = city,
+            PhoneNumbers = phoneNumbers
+        };
 }

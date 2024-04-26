@@ -41,5 +41,6 @@ public class UnitOfWork : IUnitOfWork
                     entry.Reload();
                     break;
             }
-        }    }
+        }    
+    }
 }

@@ -1,13 +1,12 @@
 using System.Text.RegularExpressions;
-using Application.Common.Models;
+using Application.Common.Wrappers.Command;
 using Domain.Enums;
 using Domain.Interfaces;
 using FluentValidation;
-using MediatR;
 
 namespace Application.Persons.AddPerson;
 
-public class AddPersonCommand : IRequest<OperationResult<int>>
+public class AddPersonCommand : ICommand<int>
 {
     public string Name { get; set; }
     public string Surname { get; set; }
@@ -16,17 +15,6 @@ public class AddPersonCommand : IRequest<OperationResult<int>>
     public DateTime BirthDate { get; set; }
     public int CityId { get; set; }
     public List<PhoneNumberRequest> PhoneNumbers { get; set; }
-
-    public AddPersonCommand(AddPersonRequest request)
-    {
-        Name = request.Name;
-        Surname = request.Surname;
-        Gender = request.Gender;
-        Pin = request.Pin;
-        BirthDate = request.BirthDate;
-        CityId = request.CityId;
-        PhoneNumbers = request.PhoneNumbers;
-    }
 }
 
 public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
