@@ -28,7 +28,7 @@ internal class AddPersonCommandHandler : ICommandHandler<AddPersonCommand, int>
         );
 
         await _unitOfWork.Persons.AddAsync(person, cancellationToken);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new OperationResult<int>(ResultCode.Created, person.Id);
     }

@@ -20,3 +20,5 @@ INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, Loca
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'between_2_and_50_character', N'en', N'Value length must be between 2-50');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_exists_with_id', N'ka', N'მომხმარებელი არ მოიძებნა');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_exists_with_id', N'en', N'Person does not exists');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'file_type_not_allowed', N'ka', N'ფაილის ფორმატი არაა დასაშველი');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'file_type_not_allowed', N'en', N'File formati is now allowed');

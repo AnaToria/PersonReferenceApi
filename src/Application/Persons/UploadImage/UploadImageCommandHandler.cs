@@ -20,19 +20,16 @@ internal class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, s
 
     public async Task<OperationResult<string?>> Handle(UploadImageCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var person = await _unitOfWork.Persons.GetByIdAsync(request.PersonId, cancellationToken);
-            var image = await _imageService.UploadImageAsync(request.Image,$"{request.PersonId}_image");
+        await _unitOfWork.BeginTransactionAsync(cancellationToken);
+        
+        var person = await _unitOfWork.Persons.GetByIdAsync(request.PersonId, cancellationToken);
+        var image = await _imageService.UploadImageAsync(request.Image, $"{request.PersonId}_image");
 
-            person!.SetImage(image);
-            await _unitOfWork.CommitAsync();
-            
-            return new OperationResult<string?>(ResultCode.Ok, person!.Image);
-        }
-        catch (Exception)
-        {
-            return new OperationResult<string?>(ResultCode.InternalError, null);
-        }
+        person!.SetImage(image);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await _unitOfWork.CommitTransactionAsync(cancellationToken);
+
+        return new OperationResult<string?>(ResultCode.Ok, person!.Image);
     }
 }

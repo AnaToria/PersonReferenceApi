@@ -1,16 +1,17 @@
 using Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Persistence.Repositories;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork, IAsyncDisposable
 {
     public ICityRepository Cities { get; }
     public IPersonRepository Persons { get; }
     public IPhoneNumberRepository PhoneNumbers { get; }
 
     private readonly PersonReferenceDbContext _dbContext;
-
+    private IDbContextTransaction? _transaction;
     public UnitOfWork(PersonReferenceDbContext dbContext)
     {
         _dbContext = dbContext;
@@ -18,10 +19,20 @@ public class UnitOfWork : IUnitOfWork
         Persons = new PersonRepository(dbContext);
         PhoneNumbers = new PhoneNumberRepository(dbContext);
     }
-    
-    public Task<int> CommitAsync()
+
+    public async Task BeginTransactionAsync(CancellationToken cancellationToken)
     {
-        return _dbContext.SaveChangesAsync();
+        _transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+    }
+    
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+    {
+        return await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+    
+    public Task CommitTransactionAsync(CancellationToken cancellationToken)
+    {
+        return _transaction!.CommitAsync(cancellationToken);
     }
 
     public void RejectChanges()
@@ -42,5 +53,17 @@ public class UnitOfWork : IUnitOfWork
                     break;
             }
         }    
+    }
+
+    public void Dispose()
+    {
+        _dbContext.Dispose();
+        _transaction?.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _dbContext.DisposeAsync();
+        if (_transaction != null) await _transaction.DisposeAsync();
     }
 }

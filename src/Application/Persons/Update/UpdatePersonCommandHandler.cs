@@ -28,7 +28,7 @@ internal class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand,
         );
 
         _unitOfWork.Persons.Update(person);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new OperationResult<int>(ResultCode.Created, person.Id);
     }
