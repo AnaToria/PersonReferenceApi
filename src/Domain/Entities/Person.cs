@@ -22,7 +22,7 @@ public class Person
     }
 
     public static Person Create(string name, string surname, Gender gender, string pin, DateTime birthDate,
-        City city, List<PhoneNumber> phoneNumbers, int? id = null) =>
+        string image, City city, List<PhoneNumber> phoneNumbers, int? id = null) =>
         new()
         {
             Id = id ?? default,
@@ -31,12 +31,8 @@ public class Person
             Gender = gender,
             Pin = pin,
             BirthDate = birthDate,
+            Image = image,
             City = city,
             PhoneNumbers = phoneNumbers
         };
-
-    public void SetImage(string image)
-    {
-        Image = image;
-    }
 }

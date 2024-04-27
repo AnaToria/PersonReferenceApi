@@ -1,45 +1,64 @@
-using Application.Interfaces;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Services;
 
 public class ImageService : IImageService
 {
-    private readonly string _uploadsDirectory;
+    private readonly string _multimediaGetEndpoint;
+    private readonly string _folderPath;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ImageService(IHttpContextAccessor httpContextAccessor)
+    public ImageService(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
     {
-        _httpContextAccessor = httpContextAccessor; 
-        _uploadsDirectory = "../../Uploads/";
+        _httpContextAccessor = httpContextAccessor;
+        _multimediaGetEndpoint = configuration["Multimedia:GetEndpoint"]!;
+        _folderPath = configuration["Multimedia:FolderPath"]!;
     }
 
-    public async Task<string> UploadImageAsync(IFormFile imageFile, string imageName)
+    public async Task<string> UploadImageAsync(IFormFile file)
     {
-        try
+        var fileName = file.FileName;
+        
+        var filePath = GetFilePath(fileName);
+
+        await using (var fileStream = new FileStream(filePath, FileMode.Create))
         {
-            if (!Directory.Exists(_uploadsDirectory))
-                Directory.CreateDirectory(_uploadsDirectory);
-
-            var filePath = Path.Combine(_uploadsDirectory, $"{imageName}.jpeg");
-
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-
-            return $"{imageName}.jpeg";
+            await file.CopyToAsync(fileStream);
         }
-        catch (Exception ex)
-        {
-            throw new Exception("Error uploading image", ex);
-        }
+
+        return GetImageUrl(fileName);
     }
 
-    public string GetImageUrl(string imageName)
+    public Task<byte[]> GetAsync(string fileName)
     {
-        string baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
-        return $"{baseUrl}/{_uploadsDirectory}/{imageName}";
+        var filePath = GetFilePath(fileName);
+
+        return File.ReadAllBytesAsync(filePath);
+    }
+
+    public Task RemoveAsync(string fileName)
+    {
+        var filePath = GetFilePath(fileName);
+        
+        File.Delete(filePath);
+        
+        return Task.CompletedTask;
+    }
+    
+    private string GetFilePath(string imageName)
+    {
+        if (!Directory.Exists(_folderPath))
+            Directory.CreateDirectory(_folderPath);
+
+        var filePath = Path.Combine(_folderPath, $"{imageName}");
+        return filePath;
+    }
+
+    private string GetImageUrl(string imageName)
+    {
+        var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
+        return $"{baseUrl}/{_multimediaGetEndpoint}{imageName}";
     }
 }

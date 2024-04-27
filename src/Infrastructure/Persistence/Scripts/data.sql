@@ -1,5 +1,31 @@
-INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'non_empty_name', N'ka', N'ველი სავალდებულოა');
-INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'non_empty_name', N'en', N'Field is required');
+-- Cities
+delete from PersonReferenceDB.dbo.Cities;
+
+INSERT INTO PersonReferenceDB.dbo.Cities (Name, NameEn)
+VALUES
+    (N'თბილისი', 'Tbilisi'),
+    (N'ბათუმი', 'Batumi'),
+    (N'ქუთაისი', 'Kutaisi'),
+    (N'რუსთავი', 'Rustavi'),
+    (N'ზუგდიდი', 'Zugdidi'),
+    (N'ფოთი', 'Poti'),
+    (N'გორი', 'Gori'),
+    (N'თელავი', 'Telavi'),
+    (N'სამტრედია', 'Samtredia'),
+    (N'სენაკი', 'Senaki'),
+    (N'მარნეული', 'Marneuli'),
+    (N'ახალციხე', 'Akhaltsikhe'),
+    (N'ხაშური', 'Khashuri'),
+    (N'სიღნაღი', 'Sighnaghi'),
+    (N'ოზურგეთი', 'Ozurgeti');
+
+
+
+-- Localizations
+delete from PersonReferenceDB.dbo.Localizations;
+
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'non_empty', N'ka', N'ველი სავალდებულოა');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'non_empty', N'en', N'Field is required');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'city_does_not_exists', N'ka', N'ქალაქი არ მოიძებნა');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'city_does_not_exists', N'en', N'City does not exists');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'phone_already_registered', N'ka', N'ნომერი რეგისტრირებულია სხვა მომხმარებელზე');

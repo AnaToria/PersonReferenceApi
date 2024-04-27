@@ -4,6 +4,7 @@ namespace Application.Interfaces.Services;
 
 public interface IImageService
 {
-    Task<string> UploadImageAsync(IFormFile imageFile, string imageName);
-    string GetImageUrl(string fileName);
+    Task<string> UploadImageAsync(IFormFile file);
+    Task<byte[]> GetAsync(string fileName);
+    Task RemoveAsync(string fileName);
 }

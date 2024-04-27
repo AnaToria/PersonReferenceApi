@@ -23,6 +23,7 @@ internal class AddPersonCommandHandler : ICommandHandler<AddPersonCommand, int>
             request.Gender,
             request.Pin,
             request.BirthDate,
+            request.Image,
             city!,
             phoneNumbers
         );

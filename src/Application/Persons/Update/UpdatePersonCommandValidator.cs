@@ -11,18 +11,18 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
     {
         RuleFor(command => command.Id)
             .NotEmpty()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .NotNull()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .MustAsync(async (id, cancellationToken) =>
                 await unitOfWork.Persons.ExistsWithIdAsync(id, cancellationToken: cancellationToken))
             .WithMessage("Person with this id does not exist.");
         
         RuleFor(command => command.Name)
             .NotEmpty()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .NotNull()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .Length(2, 50)
             .WithMessage(MessageKeys.General.Between2And50Character)
             .Matches(@"^((\p{IsGeorgian}+)|([a-zA-Z]+))$")
@@ -44,9 +44,9 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
         
         RuleFor(command => command.Surname)
             .NotEmpty()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .NotNull()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .Length(2, 50)
             .WithMessage(MessageKeys.General.Between2And50Character)
             .Matches(@"^((\p{IsGeorgian}+)|([a-zA-Z]+))$")
@@ -54,9 +54,9 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
         
         RuleFor(command => command.Pin)
             .NotEmpty()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .NotNull()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .Length(11)
             .WithMessage(MessageKeys.Person.PinExactly11Character)
             .Matches(@"^\d+$")
@@ -67,7 +67,7 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
         
         RuleFor(command => command.BirthDate)
             .NotNull()
-            .WithMessage(MessageKeys.General.NonEmptyName)
+            .WithMessage(MessageKeys.General.NonEmpty)
             .Must(date => DateTime.Today.AddYears(-18) >= date)
             .WithMessage(MessageKeys.Person.PersonOlderThan18);
         
@@ -78,16 +78,16 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
 
         RuleFor(command => command.PhoneNumbers)
             .Must(phoneNumbers => phoneNumbers != null && phoneNumbers.Any())
-            .WithMessage(MessageKeys.General.NonEmptyName);
+            .WithMessage(MessageKeys.General.NonEmpty);
         
         RuleForEach(command => command.PhoneNumbers)
             .ChildRules(phoneNumber =>
             {
                 phoneNumber.RuleFor(p => p.Number)
                     .NotNull()
-                    .WithMessage(MessageKeys.General.NonEmptyName)
+                    .WithMessage(MessageKeys.General.NonEmpty)
                     .NotEmpty()
-                    .WithMessage(MessageKeys.General.NonEmptyName)
+                    .WithMessage(MessageKeys.General.NonEmpty)
                     .MustAsync(async (p, cancellationToken) =>
                         !await unitOfWork.PhoneNumbers.ExistsWithNumberAsync(p, cancellationToken))
                     .WithMessage(MessageKeys.PhoneNumber.PhoneAlreadyRegistered);
