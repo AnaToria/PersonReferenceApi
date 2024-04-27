@@ -10,6 +10,7 @@ public class Person
     public Gender Gender { get; set; }
     public string Pin { get; set; }
     public DateTime BirthDate { get; set; }
+    public string? Image { get; set; }
     public City City { get; set; }
     public List<PhoneNumber> PhoneNumbers { get; set; }
 
@@ -19,9 +20,10 @@ public class Person
     }
 
     public static Person Create(string name, string surname, Gender gender, string pin, DateTime birthDate,
-        City city, List<PhoneNumber> phoneNumbers) =>
+        City city, List<PhoneNumber> phoneNumbers, int? id = null) =>
         new()
         {
+            Id = id ?? default,
             Name = name,
             Surname = surname,
             Gender = gender,

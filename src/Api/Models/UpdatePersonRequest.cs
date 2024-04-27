@@ -1,13 +1,14 @@
 using System.Text.Json.Serialization;
+using Application.Persons;
 using Domain.Enums;
 
-namespace Application.Persons.AddPerson;
+namespace Api.Models;
 
-public class AddPersonRequest
+public class UpdatePersonRequest
 {
     public string Name { get; set; }
     public string Surname { get; set; }
-    [JsonConverter(typeof(JsonStringEnumConverter))] 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public Gender Gender { get; set; }
     public string Pin { get; set; }
     public DateTime BirthDate { get; set; }

@@ -1,9 +1,7 @@
-using Application.Common;
 using Application.Common.Models;
 using Application.Common.Wrappers.Command;
 using Domain.Entities;
 using Domain.Interfaces;
-using MediatR;
 
 namespace Application.Persons.AddPerson;
 

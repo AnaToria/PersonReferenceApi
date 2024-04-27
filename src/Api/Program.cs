@@ -19,6 +19,8 @@ builder.Services.AddApplication();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddCors();
 var app = builder.Build();
 
 app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
@@ -34,6 +36,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors();
 app.Run();
 

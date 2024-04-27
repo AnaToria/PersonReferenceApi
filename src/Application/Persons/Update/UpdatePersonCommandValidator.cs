@@ -1,26 +1,22 @@
 using System.Text.RegularExpressions;
-using Application.Common.Wrappers.Command;
-using Domain.Enums;
 using Domain.Interfaces;
 using FluentValidation;
 
-namespace Application.Persons.AddPerson;
+namespace Application.Persons.Update;
 
-public class AddPersonCommand : ICommand<int>
+public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonCommand>
 {
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public Gender Gender { get; set; }
-    public string Pin { get; set; }
-    public DateTime BirthDate { get; set; }
-    public int CityId { get; set; }
-    public List<PhoneNumberRequest> PhoneNumbers { get; set; }
-}
-
-public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
-{
-    public AddPersonCommandValidator(IUnitOfWork unitOfWork)
+    public UpdatePersonCommandValidator(IUnitOfWork unitOfWork)
     {
+        RuleFor(command => command.Id)
+            .NotEmpty()
+            .WithMessage("Id must not be empty.")
+            .NotNull()
+            .WithMessage("Id must not be null.")
+            .MustAsync(async (id, cancellationToken) =>
+                await unitOfWork.Persons.ExistsWithIdAsync(id, cancellationToken: cancellationToken))
+            .WithMessage("Person with this id does not exist.");
+        
         RuleFor(command => command.Name)
             .NotEmpty()
             .WithMessage("Name must not be empty.")

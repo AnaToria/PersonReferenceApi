@@ -1,5 +1,7 @@
+using Application.Interfaces;
 using Domain.Interfaces;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,7 @@ public static class ServiceCollectionExtensions
             => builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection")));
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddSingleton<IImageService, ImageService>();
         
         return services;
     }
