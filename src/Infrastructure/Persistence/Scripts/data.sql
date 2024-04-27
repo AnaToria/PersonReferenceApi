@@ -18,3 +18,5 @@ INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, Loca
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'name_and_surname_must_be_in_same_language', N'en', N'Name and Surname must be in same language');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'between_2_and_50_character', N'ka', N'მნიშვნელობის სიგრძე უნდა იყოს 2-სა და 50-ს შორის');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'between_2_and_50_character', N'en', N'Value length must be between 2-50');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_exists_with_id', N'ka', N'მომხმარებელი არ მოიძებნა');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_exists_with_id', N'en', N'Person does not exists');
