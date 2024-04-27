@@ -1,16 +1,18 @@
 using System.Text.RegularExpressions;
+using Application.Common.Constants;
 using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
 using FluentValidation;
 
-namespace Application.Persons.AddPerson;
+namespace Application.Persons.Add;
 
 public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
 {
-    public AddPersonCommandValidator(IUnitOfWork unitOfWork)
+    public AddPersonCommandValidator(IUnitOfWork unitOfWork, IStringLocalizer stringLocalizer)
     {
         RuleFor(command => command.Name)
             .NotEmpty()
-            .WithMessage("Name must not be empty.")
+            .WithMessage(stringLocalizer.Get(ErrorMessageKeys.General.NonEmptyName,""))
             .NotNull()
             .WithMessage("Name must not be null.")
             .Length(2, 50)

@@ -3,7 +3,9 @@ using MediatR;
 
 namespace Application.Common.Wrappers.Query;
 
-public interface IQuery<TResponse> : IRequest<OperationResult<TResponse>>
+file interface IQuery : ILocalizedRequest;
+
+public abstract class Query<TResponse> : IRequest<OperationResult<TResponse>>, IQuery
 {
-    
+    public string LanguageCode { get; set; }
 }

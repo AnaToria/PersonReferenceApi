@@ -3,7 +3,9 @@ using MediatR;
 
 namespace Application.Common.Wrappers.Command;
 
-public interface ICommand<TResponse> : IRequest<OperationResult<TResponse>>
+file interface ICommand : ILocalizedRequest;
+
+public abstract class Command<TResponse> : IRequest<OperationResult<TResponse>>, ICommand
 {
-    
+    public string LanguageCode { get; set; }
 }

@@ -34,6 +34,7 @@ builder.Services.AddCors();
 var app = builder.Build();
 
 app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
+app.UseMiddleware<LanguageMiddleware>();
 app.UseSerilogRequestLogging();
 
 app.UseRouting();

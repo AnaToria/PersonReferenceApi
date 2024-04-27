@@ -1,5 +1,6 @@
 using System.Reflection;
 using Domain.Entities;
+using Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
@@ -19,4 +20,5 @@ public class PersonReferenceDbContext : DbContext
     public DbSet<Person> Persons => Set<Person>();
     public DbSet<PhoneNumber> PhoneNumbers => Set<PhoneNumber>();
     public DbSet<PersonRelationship> PersonRelationships => Set<PersonRelationship>();
+    public DbSet<Localization> Localizations => Set<Localization>();
 }

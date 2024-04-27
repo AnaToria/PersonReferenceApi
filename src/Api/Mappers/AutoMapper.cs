@@ -1,5 +1,5 @@
 using Api.Models;
-using Application.Persons.AddPerson;
+using Application.Persons.Add;
 using Application.Persons.Update;
 using Application.Persons.UploadImage;
 using AutoMapper;

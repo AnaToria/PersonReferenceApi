@@ -3,7 +3,7 @@ using Application.Common.Wrappers.Command;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 
-namespace Application.Persons.AddPerson;
+namespace Application.Persons.Add;
 
 internal class AddPersonCommandHandler : ICommandHandler<AddPersonCommand, int>
 {

@@ -1,9 +1,9 @@
 using Application.Common.Wrappers.Command;
 using Domain.Enums;
 
-namespace Application.Persons.AddPerson;
+namespace Application.Persons.Add;
 
-public class AddPersonCommand : ICommand<int>
+public class AddPersonCommand : Command<int>
 {
     public string Name { get; set; }
     public string Surname { get; set; }

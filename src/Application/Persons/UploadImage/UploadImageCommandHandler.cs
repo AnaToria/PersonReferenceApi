@@ -3,7 +3,6 @@ using Application.Common.Wrappers.Command;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
-using Application.Persons.AddPerson;
 using Domain.Entities;
 
 namespace Application.Persons.UploadImage;

@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IImageService, ImageService>();
+        services.AddSingleton<IStringLocalizer, StringLocalizer>();
         
         return services;
     }
