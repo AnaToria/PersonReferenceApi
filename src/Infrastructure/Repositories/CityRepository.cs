@@ -1,6 +1,5 @@
+using Application.Interfaces.Repositories;
 using Domain.Entities;
-using Domain.Interfaces;
-using Domain.Models;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +15,10 @@ public class CityRepository : ICityRepository
         _dbContext = dbContext;
     }
     
-   public Task<List<City>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken = default)
+   public Task<List<City>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
    {
        return _dbContext.Cities
-           .Paged(pagination)
+           .Paged(new Pagination(pageNumber, pageSize))
            .ToListAsync(cancellationToken);
    }
 

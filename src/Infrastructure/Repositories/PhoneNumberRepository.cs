@@ -1,6 +1,5 @@
+using Application.Interfaces.Repositories;
 using Domain.Entities;
-using Domain.Interfaces;
-using Domain.Models;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +15,10 @@ public class PhoneNumberRepository : IPhoneNumberRepository
         _dbContext = dbContext;
     }
 
-    public Task<List<PhoneNumber>> GetAllAsync(Pagination pagination, CancellationToken cancellationToken = default)
+    public Task<List<PhoneNumber>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         return _dbContext.PhoneNumbers
-            .Paged(pagination)
+            .Paged(new Pagination(pageNumber, pageSize))
             .ToListAsync(cancellationToken);
     }
 

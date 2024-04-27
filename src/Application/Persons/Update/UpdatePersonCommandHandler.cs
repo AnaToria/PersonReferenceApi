@@ -1,8 +1,8 @@
 using Application.Common.Models;
 using Application.Common.Wrappers.Command;
+using Application.Interfaces.Repositories;
 using Application.Persons.AddPerson;
 using Domain.Entities;
-using Domain.Interfaces;
 
 namespace Application.Persons.Update;
 
