@@ -7,7 +7,7 @@ using Domain.Entities;
 
 namespace Application.Persons.UploadImage;
 
-internal class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, string?>
+internal class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, string>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
@@ -18,7 +18,7 @@ internal class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, s
         _imageService = imageService;
     }
 
-    public async Task<OperationResult<string?>> Handle(UploadImageCommand request, CancellationToken cancellationToken)
+    public async Task<OperationResult<string>> Handle(UploadImageCommand request, CancellationToken cancellationToken)
     {
         await _unitOfWork.BeginTransactionAsync(cancellationToken);
         
@@ -30,6 +30,6 @@ internal class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, s
 
         await _unitOfWork.CommitTransactionAsync(cancellationToken);
 
-        return new OperationResult<string?>(ResultCode.Ok, person!.Image);
+        return new OperationResult<string>(ResultCode.Ok, person.Image);
     }
 }

@@ -27,7 +27,7 @@ public class PersonController : BaseController
     
     [Route("image/upload/{id}")]
     [HttpPost]
-    public Task<OperationResult<string?>> UploadImage(IFormFile image, [FromRoute] int id, CancellationToken cancellationToken)
+    public Task<OperationResult<string>> UploadImage(IFormFile image, [FromRoute] int id, CancellationToken cancellationToken)
     {
         return SendCommandAsync(_mapper.Map<UploadImageCommand>(UploadImageRequest.Create(image, id)), cancellationToken);
     }
