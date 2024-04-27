@@ -18,5 +18,5 @@ public class PersonReferenceDbContext : DbContext
     public DbSet<City> Cities => Set<City>();
     public DbSet<Person> Persons => Set<Person>();
     public DbSet<PhoneNumber> PhoneNumbers => Set<PhoneNumber>();
-    
+    public DbSet<PersonRelationship> PersonRelationships => Set<PersonRelationship>();
 }

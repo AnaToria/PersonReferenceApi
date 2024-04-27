@@ -24,8 +24,9 @@ internal class UploadImageCommandHandler : ICommandHandler<UploadImageCommand, s
         try
         {
             var person = await _unitOfWork.Persons.GetByIdAsync(request.PersonId, cancellationToken);
-            person!.Image = await _imageService.UploadImageAsync(request.Image,$"{request.PersonId}_image");
+            var image = await _imageService.UploadImageAsync(request.Image,$"{request.PersonId}_image");
 
+            person!.SetImage(image);
             await _unitOfWork.CommitAsync();
             
             return new OperationResult<string?>(ResultCode.Ok, person!.Image);

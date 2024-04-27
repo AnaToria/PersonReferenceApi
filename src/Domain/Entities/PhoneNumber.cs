@@ -4,9 +4,9 @@ namespace Domain.Entities;
 
 public class PhoneNumber
 {
-    public int Id { get; set; }
-    public PhoneType Type { get; set; }
-    public string Number { get; set; }
+    public int Id { get; private set; }
+    public PhoneType Type { get; private  set; }
+    public string Number { get; private set; }
 
     private PhoneNumber()
     {

@@ -4,19 +4,21 @@ namespace Domain.Entities;
 
 public class Person
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public Gender Gender { get; set; }
-    public string Pin { get; set; }
-    public DateTime BirthDate { get; set; }
-    public string? Image { get; set; }
-    public City City { get; set; }
-    public List<PhoneNumber> PhoneNumbers { get; set; }
+    public int Id { get; private set; }
+    public string Name { get; private set; }
+    public string Surname { get; private set; }
+    public Gender Gender { get; private set; }
+    public string Pin { get; private set; }
+    public DateTime BirthDate { get; private set; }
+    public string? Image { get; private set; }
+    public City City { get; private set; }
+    public List<PhoneNumber> PhoneNumbers { get; private set; }
+    public List<PersonRelationship> Relationships { get; private set; }
 
     private Person()
     {
         PhoneNumbers = new List<PhoneNumber>();
+        Relationships = new List<PersonRelationship>();
     }
 
     public static Person Create(string name, string surname, Gender gender, string pin, DateTime birthDate,
@@ -32,4 +34,9 @@ public class Person
             City = city,
             PhoneNumbers = phoneNumbers
         };
+
+    public void SetImage(string image)
+    {
+        Image = image;
+    }
 }

@@ -1,8 +1,7 @@
-using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Infrastructure.Persistence;
-using Infrastructure.Repositories;
+using Infrastructure.Persistence.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,8 +13,15 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<PersonReferenceDbContext>(builder 
-            => builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection")));
+        var assemblyFullName = typeof(PersonReferenceDbContext).Assembly.FullName;
+        services.AddDbContext<PersonReferenceDbContext>(builder =>
+        {
+            builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection"),
+                optionsBuilder =>
+                {
+                    optionsBuilder.MigrationsAssembly(assemblyFullName);
+                });
+        });
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IImageService, ImageService>();

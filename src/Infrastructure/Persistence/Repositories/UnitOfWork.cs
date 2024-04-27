@@ -1,8 +1,7 @@
 using Application.Interfaces.Repositories;
-using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
