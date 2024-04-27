@@ -3,13 +3,13 @@ using Application.Common.Models;
 
 namespace Api.Middlewares;
 
-public sealed class ValidationErrorExceptionHandlingMiddleware
+public sealed class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ValidationErrorExceptionHandlingMiddleware> _logger;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-    public ValidationErrorExceptionHandlingMiddleware(RequestDelegate next, 
-        ILogger<ValidationErrorExceptionHandlingMiddleware> logger)
+    public ExceptionHandlingMiddleware(RequestDelegate next, 
+        ILogger<ExceptionHandlingMiddleware> logger)
     {
         _next = next;
         _logger = logger;

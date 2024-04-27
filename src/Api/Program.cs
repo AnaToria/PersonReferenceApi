@@ -33,7 +33,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors();
 var app = builder.Build();
 
-app.UseMiddleware<ValidationErrorExceptionHandlingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseMiddleware<LanguageMiddleware>();
 app.UseSerilogRequestLogging();
 

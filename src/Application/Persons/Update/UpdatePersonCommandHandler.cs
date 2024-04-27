@@ -12,31 +12,24 @@ internal class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand,
 
     public async Task<OperationResult<int>> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var city = await _unitOfWork.Cities.GetByIdAsync(request.CityId, cancellationToken);
-            var phoneNumbers = request.PhoneNumbers
-                .Select(p => PhoneNumber.Create(p.Type, p.Number))
-                .ToList();
-            
-            var person = Person.Create(
-                request.Name,
-                request.Surname,
-                request.Gender,
-                request.Pin,
-                request.BirthDate,
-                city!,
-                phoneNumbers
-            );
+        var city = await _unitOfWork.Cities.GetByIdAsync(request.CityId, cancellationToken);
+        var phoneNumbers = request.PhoneNumbers
+            .Select(p => PhoneNumber.Create(p.Type, p.Number))
+            .ToList();
 
-            _unitOfWork.Persons.Update(person);
-            await _unitOfWork.CommitAsync();
-            
-            return new OperationResult<int>(ResultCode.Created, person.Id);
-        }
-        catch (Exception)
-        {
-            return new OperationResult<int>(ResultCode.InternalError, -1);
-        }
+        var person = Person.Create(
+            request.Name,
+            request.Surname,
+            request.Gender,
+            request.Pin,
+            request.BirthDate,
+            city!,
+            phoneNumbers
+        );
+
+        _unitOfWork.Persons.Update(person);
+        await _unitOfWork.CommitAsync();
+
+        return new OperationResult<int>(ResultCode.Created, person.Id);
     }
 }
