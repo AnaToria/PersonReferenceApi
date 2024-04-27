@@ -1,6 +1,6 @@
 using Domain.Models;
 
-namespace Infrastructure.Extensions;
+namespace Infrastructure.Persistence.Extensions;
 
 internal static class PaginationExtensions
 {

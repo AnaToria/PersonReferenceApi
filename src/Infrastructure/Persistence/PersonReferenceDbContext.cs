@@ -2,7 +2,7 @@ using System.Reflection;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure;
+namespace Infrastructure.Persistence;
 
 public class PersonReferenceDbContext : DbContext
 {
