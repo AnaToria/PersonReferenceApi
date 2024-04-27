@@ -12,4 +12,7 @@ public class OperationResult<T>
         ValidationErrors = validationErrors;
         Data = data;
     }
+    
+    public static implicit operator OperationResult<T>(ValidationResult validationResult) => 
+        new(ResultCode.InternalError, default, validationResult);
 }

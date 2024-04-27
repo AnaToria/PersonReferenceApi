@@ -1,24 +1,23 @@
 using System.Text.RegularExpressions;
-using Application.Common.Constants;
+using Application.Common.Constants.MessageKeys;
 using Application.Interfaces.Repositories;
-using Application.Interfaces.Services;
 using FluentValidation;
 
 namespace Application.Persons.Add;
 
 public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
 {
-    public AddPersonCommandValidator(IUnitOfWork unitOfWork, IStringLocalizer stringLocalizer)
+    public AddPersonCommandValidator(IUnitOfWork unitOfWork)
     {
         RuleFor(command => command.Name)
             .NotEmpty()
-            .WithMessage(stringLocalizer.Get(ErrorMessageKeys.General.NonEmptyName,""))
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .NotNull()
-            .WithMessage("Name must not be null.")
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .Length(2, 50)
-            .WithMessage("Name must not be between 2-50 character.")
+            .WithMessage(MessageKeys.General.Between2And50Character)
             .Matches(@"^((\p{IsGeorgian}+)|([a-zA-Z]+))$")
-            .WithMessage("Name must contain only Latin or Georgian characters.")
+            .WithMessage(MessageKeys.General.ContainsOnlyGeorgianOrLatinCharacters)
             .Custom((name, context) =>
             {
                 var surname = context.InstanceToValidate.Surname;
@@ -29,60 +28,60 @@ public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
 
                     if (nameIsGeorgian != surnameIsGeorgian)
                     {
-                        context.AddFailure("Name and surname must be in the same language.");
+                        context.AddFailure(MessageKeys.Person.NameAndSurnameSameLanguage);
                     }
                 }
             });
         
         RuleFor(command => command.Surname)
             .NotEmpty()
-            .WithMessage("Surname must not be empty.")
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .NotNull()
-            .WithMessage("Surname must not be null.")
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .Length(2, 50)
-            .WithMessage("Surname must not be between 2-50 character.")
+            .WithMessage(MessageKeys.General.Between2And50Character)
             .Matches(@"^((\p{IsGeorgian}+)|([a-zA-Z]+))$")
-            .WithMessage("Surname must contain only Latin or Georgian characters.");
+            .WithMessage(MessageKeys.General.ContainsOnlyGeorgianOrLatinCharacters);
         
         RuleFor(command => command.Pin)
             .NotEmpty()
-            .WithMessage("Pin must not be empty.")
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .NotNull()
-            .WithMessage("Pin must not be null.")
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .Length(11)
-            .WithMessage("Pin must not be exactly 11 character.")
+            .WithMessage(MessageKeys.Person.PinExactly11Character)
             .Matches(@"^\d+$")
-            .WithMessage("Pin must contain only numeric characters.")
+            .WithMessage(MessageKeys.General.ContainsOnlyNumericCharacters)
             .MustAsync(async (pin, cancellationToken) =>
                 !await unitOfWork.Persons.ExistsWithPinAsync(pin, cancellationToken: cancellationToken))
-            .WithMessage("Person with this pin already exists.");
+            .WithMessage(MessageKeys.Person.PersonExistsWithPin);
         
         RuleFor(command => command.BirthDate)
             .NotNull()
-            .WithMessage("BirthDate must not be null.")
+            .WithMessage(MessageKeys.General.NonEmptyName)
             .Must(date => DateTime.Today.AddYears(-18) >= date)
-            .WithMessage("Person must be 18 years or older to proceed.");
+            .WithMessage(MessageKeys.Person.PersonOlderThan18);
         
         RuleFor(command => command.CityId)
             .MustAsync(async (cityId, cancellationToken) =>
                 await unitOfWork.Cities.ExistsWithIdAsync(cityId, cancellationToken))
-            .WithMessage("City with this id does not exist.");
+            .WithMessage(MessageKeys.City.CityDoesNotExists);
 
         RuleFor(command => command.PhoneNumbers)
             .Must(phoneNumbers => phoneNumbers != null && phoneNumbers.Any())
-            .WithMessage("Phone numbers must be included.");
+            .WithMessage(MessageKeys.General.NonEmptyName);
         
         RuleForEach(command => command.PhoneNumbers)
             .ChildRules(phoneNumber =>
             {
                 phoneNumber.RuleFor(p => p.Number)
                     .NotNull()
-                    .WithMessage("Phone number should not be null.")
+                    .WithMessage(MessageKeys.General.NonEmptyName)
                     .NotEmpty()
-                    .WithMessage("Phone number should not be empty.")
+                    .WithMessage(MessageKeys.General.NonEmptyName)
                     .MustAsync(async (p, cancellationToken) =>
                         !await unitOfWork.PhoneNumbers.ExistsWithNumberAsync(p, cancellationToken))
-                    .WithMessage("Phone number - '{PropertyValue}' is already registered.");
+                    .WithMessage(MessageKeys.PhoneNumber.PhoneAlreadyRegistered);
             });
     }
 }

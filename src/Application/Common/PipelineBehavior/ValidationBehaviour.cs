@@ -1,14 +1,23 @@
+using Application.Common.Exceptions;
+using Application.Common.Models;
+using Application.Common.Wrappers;
+using Application.Interfaces.Services;
 using FluentValidation;
 using MediatR;
 
 namespace Application.Common.PipelineBehavior;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
-    where TRequest : notnull
+    where TRequest : ILocalizedRequest
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
+    private readonly IStringLocalizer _stringLocalizer;
 
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
+    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators, IStringLocalizer stringLocalizer)
+    {
+        _validators = validators;
+        _stringLocalizer = stringLocalizer;
+    }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -18,12 +27,18 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         var context = new ValidationContext<TRequest>(request);
 
         var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-        var validationFailures = validationResults
+        
+        var errors = validationResults
             .SelectMany(r => r.Errors)
+            .Select(error =>
+            {
+                var localizedValue = _stringLocalizer.Get(error.ErrorMessage, request.LanguageCode);
+                return new ValidationError(error.PropertyName, localizedValue);
+            })
             .ToList();
 
-        if (validationFailures.Any())
-            throw new ValidationException(validationFailures);
+        if (errors.Any())
+            throw new ValidationErrorException(errors);
         
         return await next();
     }

@@ -8,24 +8,25 @@ namespace Application.Persons.Add;
 internal class AddPersonCommandHandler : ICommandHandler<AddPersonCommand, int>
 {
     private readonly IUnitOfWork _unitOfWork;
-
-    public AddPersonCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+    public AddPersonCommandHandler(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     public async Task<OperationResult<int>> Handle(AddPersonCommand request, CancellationToken cancellationToken)
     {
         try
         {
+            var city = await _unitOfWork.Cities.GetByIdAsync(request.CityId, cancellationToken);
+            var phoneNumbers = request.PhoneNumbers
+                .Select(p => PhoneNumber.Create(p.Type, p.Number))
+                .ToList();
+
             var person = Person.Create(
                 request.Name,
                 request.Surname,
                 request.Gender,
                 request.Pin,
                 request.BirthDate,
-                (await _unitOfWork.Cities.GetByIdAsync(request.CityId, cancellationToken))!,
-                request.PhoneNumbers.Select(p => PhoneNumber.Create(p.Type, p.Number)).ToList()
+                city!,
+                phoneNumbers
             );
 
             await _unitOfWork.Persons.AddAsync(person, cancellationToken);

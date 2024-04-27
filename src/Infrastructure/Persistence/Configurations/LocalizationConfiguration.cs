@@ -8,8 +8,8 @@ public class LocalizationConfiguration : IEntityTypeConfiguration<Localization>
 {
     public void Configure(EntityTypeBuilder<Localization> builder)
     {
-        builder.HasKey(localization => localization.ResourceKey);
-
+        builder.HasNoKey();
+        
         builder.Property(localization => localization.ResourceKey)
             .HasMaxLength(100)
             .IsRequired();

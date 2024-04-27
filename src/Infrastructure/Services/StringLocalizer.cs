@@ -34,9 +34,9 @@ public class StringLocalizer : IStringLocalizer
         return result;
     }
     
-    public string? Get(string key, string languageCode)
+    public string Get(string key, string languageCode)
     {
-        _localizations.TryGetValue($"{key}{languageCode}", out var value);
+        _localizations.TryGetValue($"{key}_{languageCode}", out var value);
 
         return value ?? DefaultLocalization;
     }
