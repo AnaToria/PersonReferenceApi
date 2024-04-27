@@ -25,7 +25,13 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         
         builder.Property(person => person.Gender)
             .HasConversion(p => p.ToString(),
-                p=>(Gender)Enum.Parse(typeof(Gender), p))
+                p=> (Gender)Enum.Parse(typeof(Gender), p))
+            .IsRequired();
+        
+        builder.Property(person => person.Status)
+            .HasConversion(p => p.ToString(),
+                p=> (EntityStatus)Enum.Parse(typeof(EntityStatus), p))
+            .HasMaxLength(20)
             .IsRequired();
         
         builder.Property(person => person.Pin)

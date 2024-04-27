@@ -1,6 +1,7 @@
 using Api.Models;
 using Application.Common.Models;
 using Application.Persons.Add;
+using Application.Persons.Delete;
 using Application.Persons.Update;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -30,5 +31,15 @@ public class PersonController : BaseController
         mappedRequest.Id = id;
         
         return SendCommandAsync(mappedRequest, cancellationToken);
+    }
+    
+    [HttpDelete("delete/{id}")]
+    public Task<OperationResult<bool>> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    {
+        var command = new DeletePersonCommand
+        {
+            Id = id
+        };
+        return SendCommandAsync(command, cancellationToken);
     }
 }

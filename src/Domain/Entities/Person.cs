@@ -2,7 +2,7 @@ using Domain.Enums;
 
 namespace Domain.Entities;
 
-public class Person
+public class Person : BaseEntity
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
@@ -33,6 +33,7 @@ public class Person
             BirthDate = birthDate,
             Image = image,
             City = city,
-            PhoneNumbers = phoneNumbers
+            PhoneNumbers = phoneNumbers,
+            Status = EntityStatus.Draft
         };
 }

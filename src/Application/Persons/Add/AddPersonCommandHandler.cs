@@ -27,6 +27,8 @@ internal class AddPersonCommandHandler : ICommandHandler<AddPersonCommand, int>
             city!,
             phoneNumbers
         );
+        
+        person.Activate();
 
         await _unitOfWork.Persons.AddAsync(person, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

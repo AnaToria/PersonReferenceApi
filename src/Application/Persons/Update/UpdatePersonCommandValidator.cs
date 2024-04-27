@@ -16,7 +16,7 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
             .WithMessage(MessageKeys.General.NonEmpty)
             .MustAsync(async (id, cancellationToken) =>
                 await unitOfWork.Persons.ExistsWithIdAsync(id, cancellationToken: cancellationToken))
-            .WithMessage("Person with this id does not exist.");
+            .WithMessage(MessageKeys.Person.PersonNotExistsWithId);
         
         RuleFor(command => command.Name)
             .NotEmpty()
