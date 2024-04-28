@@ -7,7 +7,7 @@ public interface IPersonRepository
 {
     Task<List<Person>> GetAllAsync(int pageNumber, int pageSize, string? searchText, CancellationToken cancellationToken = default);
     Task<Person?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
-    Task<IEnumerable<Person>> SearchAsync(string? name,
+    Task<List<Person>> SearchAsync(string? name,
         string? surname, 
         string? pin,
         Gender? gender,
@@ -21,4 +21,5 @@ public interface IPersonRepository
     void Update(Person person);
     Task<bool> ExistsWithIdAsync(int id, CancellationToken cancellationToken = default);
     Task<bool> ExistsWithPinAsync(string pin, CancellationToken cancellationToken = default);
+    Task<List<Person>> GetAllWithRelationships(CancellationToken cancellationToken = default);
 }

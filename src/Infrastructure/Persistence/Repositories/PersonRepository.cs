@@ -32,8 +32,8 @@ public class PersonRepository : IPersonRepository
        return query.Paged(pageNumber, pageSize)
            .ToListAsync(cancellationToken);
     }
-
-   public Task<Person?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    
+    public Task<Person?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
    {
        return _dbContext.Persons
            .Include(person => person.PhoneNumbers)
@@ -44,17 +44,17 @@ public class PersonRepository : IPersonRepository
                cancellationToken);
    }
 
-   public async Task AddAsync(Person person, CancellationToken cancellationToken = default)
+    public async Task AddAsync(Person person, CancellationToken cancellationToken = default)
    { 
        await _dbContext.Persons.AddAsync(person, cancellationToken);
    }
 
-   public void Update(Person person)
+    public void Update(Person person)
    {
        _dbContext.Persons.Update(person);
    }
 
-   public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
    {
        var person = await GetByIdAsync(id, cancellationToken);
        if (person is null)
@@ -62,23 +62,23 @@ public class PersonRepository : IPersonRepository
        _dbContext.Persons.Remove(person);
    }
 
-   public Task<bool> ExistsWithIdAsync(int id, CancellationToken cancellationToken = default)
+    public Task<bool> ExistsWithIdAsync(int id, CancellationToken cancellationToken = default)
    {
        return _dbContext.Persons
            .AnyAsync(person => person.Id == id && person.Status == EntityStatus.Active,
                cancellationToken);
    }
 
-   public Task<bool> ExistsWithPinAsync(string pin, CancellationToken cancellationToken = default)
+    public Task<bool> ExistsWithPinAsync(string pin, CancellationToken cancellationToken = default)
    {
        return _dbContext.Persons
            .AnyAsync(person => person.Pin == pin && person.Status == EntityStatus.Active,
                cancellationToken);
    }
 
-   public async Task<IEnumerable<Person>> SearchAsync(string? name, string? surname, string? pin, Gender? gender, DateOnly? birthDateFrom,
+    public Task<List<Person>> SearchAsync(string? name, string? surname, string? pin, Gender? gender, DateOnly? birthDateFrom,
        DateOnly? birthDateTo, int? cityId, int pageNumber, int pageSize, CancellationToken cancellationToken)
-   {
+    {
        var personsQueryable = _dbContext.Persons
            .Include(person => person.City)
            .AsQueryable();
@@ -108,9 +108,16 @@ public class PersonRepository : IPersonRepository
        if (cityId is not null)
            personsQueryable = personsQueryable.Where(person => person.City.Id == cityId);
 
-       return await personsQueryable
+       return personsQueryable
            .Paged(pageNumber, pageSize)
            .OrderBy(person => person.Id)
            .ToListAsync(cancellationToken);
-   }
+    }
+
+    public Task<List<Person>> GetAllWithRelationships(CancellationToken cancellationToken = default)
+    {
+        return _dbContext.Persons
+            .Include(person => person.Relationships)
+            .ToListAsync(cancellationToken);
+    }
 }
