@@ -53,15 +53,7 @@ public class PersonRepository : IPersonRepository
    {
        _dbContext.Persons.Update(person);
    }
-
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
-   {
-       var person = await GetByIdAsync(id, cancellationToken);
-       if (person is null)
-           return;
-       _dbContext.Persons.Remove(person);
-   }
-
+    
     public Task<bool> ExistsWithIdAsync(int id, CancellationToken cancellationToken = default)
    {
        return _dbContext.Persons
