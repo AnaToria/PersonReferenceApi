@@ -1,4 +1,5 @@
 using Api.Common;
+using Domain.Enums;
 
 namespace Api.Middlewares;
 
@@ -16,7 +17,7 @@ public class LanguageMiddleware
         context.Request.Headers.TryGetValue(Constants.LanguageHeaderName, out var value);
 
         if (string.IsNullOrEmpty(value))
-            context.Request.Headers[Constants.LanguageHeaderName] = Constants.DefaultLanguage;
+            context.Request.Headers[Constants.LanguageHeaderName] = Language.Ka.ToString();
 
         return _next(context);
     }

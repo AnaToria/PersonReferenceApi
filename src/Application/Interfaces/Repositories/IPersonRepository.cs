@@ -3,9 +3,10 @@ using Domain.Enums;
 
 namespace Application.Interfaces.Repositories;
 
-public interface IPersonRepository : IGenericRepository<Person>
+public interface IPersonRepository
 {
-    Task<bool> ExistsWithPinAsync(string pin, CancellationToken cancellationToken = default);
+    Task<List<Person>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+    Task<Person?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     Task<IEnumerable<Person>> SearchAsync(string? name,
         string? surname, 
         string? pin,
@@ -16,4 +17,8 @@ public interface IPersonRepository : IGenericRepository<Person>
         int pageNumber,
         int pageSize,
         CancellationToken cancellationToken);
+    Task AddAsync(Person person, CancellationToken cancellationToken = default);
+    void Update(Person person);
+    Task<bool> ExistsWithIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<bool> ExistsWithPinAsync(string pin, CancellationToken cancellationToken = default);
 }

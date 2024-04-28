@@ -34,14 +34,14 @@ public class PersonRepository : IPersonRepository
                cancellationToken);
    }
 
-   public async Task AddAsync(Person entity, CancellationToken cancellationToken = default)
+   public async Task AddAsync(Person person, CancellationToken cancellationToken = default)
    { 
-       await _dbContext.Persons.AddAsync(entity, cancellationToken);
+       await _dbContext.Persons.AddAsync(person, cancellationToken);
    }
 
-   public void Update(Person entity)
+   public void Update(Person person)
    {
-       _dbContext.Persons.Update(entity);
+       _dbContext.Persons.Update(person);
    }
 
    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
@@ -74,10 +74,14 @@ public class PersonRepository : IPersonRepository
            .AsQueryable();
 
        if (!string.IsNullOrEmpty(name))
-           personsQueryable = personsQueryable.Where(person => person.Name == name && person.Name.Contains(name));
+           personsQueryable = personsQueryable.Where(person => 
+               person.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase) 
+               || person.Name.ToLower().Contains(name.ToLower()));
 
        if (!string.IsNullOrEmpty(surname))
-           personsQueryable = personsQueryable.Where(person => person.Surname == surname &&  person.Surname.Contains(surname));
+           personsQueryable = personsQueryable.Where(person => 
+               person.Surname.Equals(surname, StringComparison.CurrentCultureIgnoreCase) 
+               || person.Surname.ToLower().Contains(surname.ToLower()));
        
        if (!string.IsNullOrEmpty(pin))
            personsQueryable = personsQueryable.Where(person => person.Pin == pin || person.Pin.Contains(pin));

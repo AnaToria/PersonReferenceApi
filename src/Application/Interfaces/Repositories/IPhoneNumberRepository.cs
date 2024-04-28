@@ -1,8 +1,6 @@
-using Domain.Entities;
-
 namespace Application.Interfaces.Repositories;
 
-public interface IPhoneNumberRepository : IGenericRepository<PhoneNumber>
+public interface IPhoneNumberRepository
 {
     Task<bool> ExistsWithNumberAsync(string number, CancellationToken cancellationToken = default);
 }

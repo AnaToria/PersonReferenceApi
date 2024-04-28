@@ -12,35 +12,37 @@ namespace Api.Controllers;
 [ApiController]
 public class BaseController  : Controller
 {
-    private IMediator Mediator { get; }
+    private ISender Sender { get; }
     private IHttpContextAccessor HttpContextAccessor { get; }
     protected BaseController(IServiceProvider serviceProvider)
     {
-        Mediator = serviceProvider.GetRequiredService<IMediator>();
+        Sender = serviceProvider.GetRequiredService<ISender>();
         HttpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
     }
 
     protected Task<OperationResult<TResponse>> SendQueryAsync<TResponse>(Query<TResponse> query, CancellationToken cancellationToken)
     {
         query.Language = GetLanguage();
-        return Mediator.Send(query, cancellationToken);
+        return Sender.Send(query, cancellationToken);
     }
 
     protected Task<OperationResult<TResponse>> SendCommandAsync<TResponse>(Command<TResponse> command, CancellationToken cancellationToken)
     {
         command.Language = GetLanguage();
-        return Mediator.Send(command, cancellationToken);
+        return Sender.Send(command, cancellationToken);
     }
     
     protected Task<OperationResult> SendCommandAsync(Command command, CancellationToken cancellationToken)
     {
         command.Language = GetLanguage();
-        return Mediator.Send(command, cancellationToken);
+        return Sender.Send(command, cancellationToken);
     }
     
     private Language GetLanguage()
     {
         var languageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName].ToString();
-        return (Language) Enum.Parse(typeof(Language), languageCode, true);
+        var parsed = Enum.TryParse(typeof(Language), languageCode, true, out var language);
+
+        return parsed ? (Language)language : Language.Ka;
     }
 }

@@ -24,12 +24,17 @@ internal class UpdatePersonCommandHandler : ICommandHandler<UpdatePersonCommand,
             .Select(p => PhoneNumber.Create(p.Type, p.Number))
             .ToList();
 
-        await _unitOfWork.BeginTransactionAsync(cancellationToken);
-
         var existingPerson = await _unitOfWork.Persons.GetByIdAsync(request.Id, cancellationToken);
 
-        if (existingPerson!.Image != request.Image)
-            await _imageService.RemoveAsync(existingPerson.Image!);
+        try
+        {
+            if (existingPerson!.Image != request.Image)
+                await _imageService.RemoveAsync(existingPerson.Image!);
+        }
+        catch
+        {
+            // ignored
+        }
 
         var person = Person.Create(
             request.Name,

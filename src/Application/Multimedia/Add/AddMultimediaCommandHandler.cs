@@ -15,10 +15,8 @@ public class AddMultimediaCommandHandler : ICommandHandler<AddMultimediaCommand,
     
     public async Task<OperationResult<string>> Handle(AddMultimediaCommand request, CancellationToken cancellationToken)
     {
-        var fileName = $"{Guid.NewGuid().ToString()}_{request.File.Name}";
+        var fileName = await _imageService.UploadImageAsync(request.File);
         
-        var image = await _imageService.UploadImageAsync(request.File);
-        
-        return new OperationResult<string>(ResultCode.Ok, image);
+        return new OperationResult<string>(ResultCode.Ok, fileName);
     }
 }
