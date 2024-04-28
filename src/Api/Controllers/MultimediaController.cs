@@ -13,7 +13,7 @@ public class MultimediaController : BaseController
     {
     }
 
-    [HttpGet("get")]
+    [HttpGet("get/{fileName}")]
     public async Task<IActionResult> Get(string fileName, CancellationToken cancellationToken)
     {
         var query = new GetMultimediaQuery

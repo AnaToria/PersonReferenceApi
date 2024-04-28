@@ -1,4 +1,5 @@
 using Application.Common.Wrappers.Command;
+using Application.Persons.Models;
 using Domain.Enums;
 
 namespace Application.Persons.Add;
@@ -12,5 +13,5 @@ public class AddPersonCommand : Command<int>
     public DateTime BirthDate { get; set; }
     public string Image { get; set; }
     public int CityId { get; set; }
-    public List<PhoneNumberRequest> PhoneNumbers { get; set; }
+    public List<PersonPhoneNumber> PhoneNumbers { get; set; }
 }

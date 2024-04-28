@@ -26,7 +26,9 @@ public class PersonRepository : IPersonRepository
    {
        return _dbContext.Persons
            .Include(person => person.PhoneNumbers)
+           .Include(person => person.City)
            .Include(person => person.Relationships)
+           .ThenInclude(relationship => relationship.RelatedPerson)
            .FirstOrDefaultAsync(person => person.Id == id && person.Status == EntityStatus.Active,
                cancellationToken);
    }

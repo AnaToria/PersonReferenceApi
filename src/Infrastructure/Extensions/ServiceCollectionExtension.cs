@@ -28,5 +28,5 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IStringLocalizer, StringLocalizer>();
         
         return services;
-    }
+     }
 }

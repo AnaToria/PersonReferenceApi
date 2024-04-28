@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Domain.Enums;
 
-namespace Application.Persons;
+namespace Api.Models;
 
 public class PhoneNumberRequest
 {

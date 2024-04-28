@@ -19,7 +19,7 @@ public class ImageService : IImageService
 
     public async Task<string> UploadImageAsync(IFormFile file)
     {
-        var fileName = file.FileName;
+        var fileName = $"{Guid.NewGuid().ToString()}{file.FileName}";
         
         var filePath = GetFilePath(fileName);
 
@@ -28,7 +28,7 @@ public class ImageService : IImageService
             await file.CopyToAsync(fileStream);
         }
 
-        return GetImageUrl(fileName);
+        return fileName;
     }
 
     public Task<byte[]> GetAsync(string fileName)
@@ -56,9 +56,9 @@ public class ImageService : IImageService
         return filePath;
     }
 
-    private string GetImageUrl(string imageName)
+    public string GetImageUrl(string imageName)
     {
         var baseUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
-        return $"{baseUrl}/{_multimediaGetEndpoint}{imageName}";
+        return $"{baseUrl}/{_multimediaGetEndpoint}/{imageName}";
     }
 }

@@ -25,6 +25,8 @@ public class OperationResult<T> : OperationResult
     {
         Data = data;
     }
+
+    public static OperationResult<T> Ok(T data) => new(ResultCode.Ok, data);
     
     public static implicit operator OperationResult<T>(ValidationResult validationResult) => 
         new(ResultCode.InternalError, default, validationResult);
