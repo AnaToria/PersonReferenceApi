@@ -56,10 +56,16 @@ public class AddPersonCommandValidator : AbstractValidator<AddPersonCommand>
                 !await unitOfWork.Persons.ExistsWithPinAsync(pin, cancellationToken: cancellationToken))
             .WithMessage(MessageKeys.Person.PersonExistsWithPin);
         
+        RuleFor(command => command.Image)
+            .NotEmpty()
+            .WithMessage(MessageKeys.General.NonEmpty)
+            .NotNull()
+            .WithMessage(MessageKeys.General.NonEmpty);
+        
         RuleFor(command => command.BirthDate)
             .NotNull()
             .WithMessage(MessageKeys.General.NonEmpty)
-            .Must(date => DateTime.Today.AddYears(-18) >= date)
+            .Must(date => DateOnly.FromDateTime(DateTime.Today).AddYears(-18) >= date)
             .WithMessage(MessageKeys.Person.PersonOlderThan18);
         
         RuleFor(command => command.CityId)

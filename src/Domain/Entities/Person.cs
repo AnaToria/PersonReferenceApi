@@ -9,8 +9,8 @@ public class Person : BaseEntity
     public string Surname { get; private set; }
     public Gender Gender { get; private set; }
     public string Pin { get; private set; }
-    public DateTime BirthDate { get; private set; }
-    public string? Image { get; private set; }
+    public DateOnly BirthDate { get; private set; }
+    public string Image { get; private set; }
     public City City { get; private set; }
     public List<PhoneNumber> PhoneNumbers { get; private set; }
     public List<PersonRelationship> Relationships { get; private set; }
@@ -21,7 +21,7 @@ public class Person : BaseEntity
         Relationships = new List<PersonRelationship>();
     }
 
-    public static Person Create(string name, string surname, Gender gender, string pin, DateTime birthDate,
+    public static Person Create(string name, string surname, Gender gender, string pin, DateOnly birthDate,
         string image, City city, List<PhoneNumber> phoneNumbers, int? id = null) =>
         new()
         {

@@ -1,4 +1,3 @@
-using Application.Common.Constants;
 using Application.Interfaces.Services;
 using Domain.Entities;
 using Domain.Enums;
@@ -12,8 +11,8 @@ public class PersonDto
     public string Surname { get; set; }
     public Gender Gender { get; set; }
     public string Pin { get; set; }
-    public DateTime BirthDate { get; set; }
-    public string? Image { get; set; }
+    public DateOnly BirthDate { get; set; }
+    public string Image { get; set; }
     public CityDto City { get; set; }
     public List<PersonPhoneNumber> PhoneNumbers { get; set; }
     public List<PersonRelationshipDto> Relationships { get; set; }

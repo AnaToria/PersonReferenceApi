@@ -66,8 +66,8 @@ public class PersonRepository : IPersonRepository
                cancellationToken);
    }
 
-   public async Task<IEnumerable<Person>> SearchAsync(string? name, string? surname, string? pin, Gender? gender, DateTime? birthDateFrom,
-       DateTime? birthDateTo, int? cityId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+   public async Task<IEnumerable<Person>> SearchAsync(string? name, string? surname, string? pin, Gender? gender, DateOnly? birthDateFrom,
+       DateOnly? birthDateTo, int? cityId, int pageNumber, int pageSize, CancellationToken cancellationToken)
    {
        var personsQueryable = _dbContext.Persons
            .Include(person => person.City)

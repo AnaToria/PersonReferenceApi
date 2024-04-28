@@ -10,8 +10,8 @@ public class SearchPersonsQuery : Query<IEnumerable<PersonListItemDto>>
     public string? Surname { get; set; }
     public Gender? Gender { get; set; }
     public string? Pin { get; set; }
-    public DateTime? BirthDateFrom { get; set; }
-    public DateTime? BirthDateTo { get; set; }
+    public DateOnly? BirthDateFrom { get; set; }
+    public DateOnly? BirthDateTo { get; set; }
     public int? CityId { get; set; }
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
