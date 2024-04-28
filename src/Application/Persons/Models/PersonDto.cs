@@ -23,6 +23,7 @@ public class PersonDto
 
         var phoneNumbers = person.PhoneNumbers.Select(number => new PersonPhoneNumber
         {
+            Id = number.Id,
             Number = number.Number,
             Type = number.Type
         }).ToList();

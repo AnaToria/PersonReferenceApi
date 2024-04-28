@@ -22,10 +22,9 @@ public class Person : BaseEntity
     }
 
     public static Person Create(string name, string surname, Gender gender, string pin, DateOnly birthDate,
-        string image, City city, List<PhoneNumber> phoneNumbers, int? id = null) =>
+        string image, City city, List<PhoneNumber> phoneNumbers) =>
         new()
         {
-            Id = id ?? default,
             Name = name,
             Surname = surname,
             Gender = gender,
@@ -55,5 +54,31 @@ public class Person : BaseEntity
         var personRelationship = Relationships.First(relationship => relationship.RelatedPerson.Id == personToConnect.Id);
         
         Relationships.Remove(personRelationship);
+    }
+
+    public void AddNumber(PhoneNumber phoneNumber)
+    {
+        PhoneNumbers.Add(phoneNumber);
+    }
+
+    public void RemoveNumber(PhoneNumber phoneNumber)
+    {
+        PhoneNumbers.Remove(phoneNumber);
+    }
+
+    public void UpdateCity(City city)
+    {
+        City = city;
+    }
+    
+    public void Update(string name, string surname, Gender gender, string pin, DateOnly birthDate,
+        string image)
+    {
+        Name = name;
+        Surname = surname;
+        Gender = gender;
+        Pin = pin;
+        BirthDate = birthDate;
+        Image = image;
     }
 }

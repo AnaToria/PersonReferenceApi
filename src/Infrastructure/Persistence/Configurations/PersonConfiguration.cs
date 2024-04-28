@@ -42,9 +42,10 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
             .IsRequired();
         
         builder.HasOne(person => person.City);
-        
-        builder.HasMany(person => person.PhoneNumbers);
 
+        builder.HasMany(person => person.PhoneNumbers)
+            .WithOne(phoneNumber => phoneNumber.Person);
+        
         builder.HasMany(person => person.Relationships)
             .WithOne(relationship => relationship.Person)
             .IsRequired();

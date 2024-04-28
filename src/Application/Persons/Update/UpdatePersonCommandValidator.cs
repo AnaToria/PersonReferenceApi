@@ -60,10 +60,7 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
             .Length(11)
             .WithMessage(MessageKeys.Person.PinExactly11Character)
             .Matches(@"^\d+$")
-            .WithMessage(MessageKeys.General.ContainsOnlyNumericCharacters)
-            .MustAsync(async (pin, cancellationToken) =>
-                !await unitOfWork.Persons.ExistsWithPinAsync(pin, cancellationToken: cancellationToken))
-            .WithMessage(MessageKeys.Person.PersonExistsWithPin);
+            .WithMessage(MessageKeys.General.ContainsOnlyNumericCharacters);
 
         RuleFor(command => command.Image)
             .NotEmpty()
@@ -93,10 +90,7 @@ public class UpdatePersonCommandValidator : AbstractValidator<UpdatePersonComman
                     .NotNull()
                     .WithMessage(MessageKeys.General.NonEmpty)
                     .NotEmpty()
-                    .WithMessage(MessageKeys.General.NonEmpty)
-                    .MustAsync(async (p, cancellationToken) =>
-                        !await unitOfWork.PhoneNumbers.ExistsWithNumberAsync(p, cancellationToken))
-                    .WithMessage(MessageKeys.PhoneNumber.PhoneAlreadyRegistered);
+                    .WithMessage(MessageKeys.General.NonEmpty);
             });
     }
 }

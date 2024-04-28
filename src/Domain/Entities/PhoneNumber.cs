@@ -8,6 +8,7 @@ public class PhoneNumber
     public PhoneType Type { get; private  set; }
     public string Number { get; private set; }
 
+    public Person Person { get; private set; }
     private PhoneNumber()
     {
         
@@ -19,4 +20,9 @@ public class PhoneNumber
             Type = type,
             Number = number
         };
+
+    public void UpdateType(PhoneType type)
+    {
+        Type = type;
+    }
 }

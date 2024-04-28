@@ -4,7 +4,7 @@ using Domain.Enums;
 
 namespace Application.Persons.Update;
 
-public class UpdatePersonCommand : Command<int>
+public class UpdatePersonCommand : Command
 {
     public int Id { get; set; }
     public string Name { get; set; }

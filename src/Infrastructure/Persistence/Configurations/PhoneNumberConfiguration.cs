@@ -21,5 +21,9 @@ public class PhoneNumberConfiguration : IEntityTypeConfiguration<PhoneNumber>
         builder.Property(phoneNumber => phoneNumber.Number)
             .HasMaxLength(50)
             .IsRequired();
+        
+        builder.HasOne(phoneNumber => phoneNumber.Person)
+            .WithMany(person => person.PhoneNumbers)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

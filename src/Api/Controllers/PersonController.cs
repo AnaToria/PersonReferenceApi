@@ -52,7 +52,7 @@ public class PersonController : BaseController
     }
     
     [HttpPut("update/{id}")]
-    public Task<OperationResult<int>> Update([FromBody] UpdatePersonRequest request, [FromRoute] int id, CancellationToken cancellationToken)
+    public Task<OperationResult> Update([FromBody] UpdatePersonRequest request, [FromRoute] int id, CancellationToken cancellationToken)
     {
         var mappedRequest = _mapper.Map<UpdatePersonCommand>(request);
         mappedRequest.Id = id;
