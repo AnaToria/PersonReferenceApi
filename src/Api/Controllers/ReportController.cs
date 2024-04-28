@@ -1,24 +1,20 @@
 using Application.Common.Models;
-using Application.Reports.Get;
+using Application.Reports.GetRelationships;
 using Application.Reports.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 public class ReportController : BaseController
 {
-    private readonly IMapper _mapper;
-
-    public ReportController(IServiceProvider serviceProvider, IMapper mapper) 
+    public ReportController(IServiceProvider serviceProvider) 
         : base(serviceProvider)
     {
-        _mapper = mapper;
     }
     
-    [HttpGet]
-    public Task<OperationResult<IEnumerable<PersonReportListItemDto>>> Get(CancellationToken cancellationToken)
+    [HttpGet("relationships")]
+    public Task<OperationResult<IEnumerable<PersonReportListItemDto>>> GetRelationships(CancellationToken cancellationToken)
     {
-        return SendQueryAsync(new GetReportQuery(), cancellationToken);
+        return SendQueryAsync(new GetRelationshipsReportQuery(), cancellationToken);
     }
 }

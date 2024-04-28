@@ -1,5 +1,3 @@
-using Application.Interfaces.Services;
-using Domain.Entities;
 using Domain.Enums;
 
 namespace Application.Reports.Models;
@@ -13,5 +11,5 @@ public class PersonReportListItemDto
     public string Pin { get; set; }
     public DateOnly BirthDate { get; set; }
     public string Image { get; set; }
-    public List<PersonRelationshipsByTypeDto>? PersonRelationshipsByTypes{ get; set; }
+    public List<PersonRelationshipsByTypeDto> PersonRelationshipsByTypes { get; set; }
 }

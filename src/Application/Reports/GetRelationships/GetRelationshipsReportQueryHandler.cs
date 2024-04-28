@@ -2,24 +2,22 @@ using Application.Common.Models;
 using Application.Common.Wrappers.Query;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
-using Application.Persons.Models;
 using Application.Reports.Models;
-using Domain.Enums;
 
-namespace Application.Reports.Get;
+namespace Application.Reports.GetRelationships;
 
-public class GetReportQueryHandler : IQueryHandler<GetReportQuery, IEnumerable<PersonReportListItemDto>>
+public class GetRelationshipsReportQueryHandler : IQueryHandler<GetRelationshipsReportQuery, IEnumerable<PersonReportListItemDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
 
-    public GetReportQueryHandler(IUnitOfWork unitOfWork, IImageService imageService)
+    public GetRelationshipsReportQueryHandler(IUnitOfWork unitOfWork, IImageService imageService)
     {
         _unitOfWork = unitOfWork;
         _imageService = imageService;
     }
 
-    public async Task<OperationResult<IEnumerable<PersonReportListItemDto>>> Handle(GetReportQuery request, CancellationToken cancellationToken)
+    public async Task<OperationResult<IEnumerable<PersonReportListItemDto>>> Handle(GetRelationshipsReportQuery request, CancellationToken cancellationToken)
     {
         var persons = await _unitOfWork.Persons.GetAllWithRelationships(cancellationToken);
         

@@ -13,16 +13,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var assemblyFullName = typeof(PersonReferenceDbContext).Assembly.FullName;
-        services.AddDbContext<PersonReferenceDbContext>(builder =>
-        {
-            builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection"),
-                optionsBuilder =>
-                {
-                    optionsBuilder.MigrationsAssembly(assemblyFullName);
-                });
-            builder.LogTo(Console.WriteLine);
-        });
+        services.AddDbContext<PersonReferenceDbContext>(builder 
+            => builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection")));
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IImageService, ImageService>();
