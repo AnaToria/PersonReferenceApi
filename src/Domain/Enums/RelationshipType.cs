@@ -4,5 +4,6 @@ public enum RelationshipType
 {
     Colleague,
     Familiar,
-    Relative
+    Relative,
+    Other
 }
