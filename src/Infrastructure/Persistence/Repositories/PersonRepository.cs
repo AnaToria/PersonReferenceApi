@@ -1,5 +1,6 @@
 using Application.Interfaces.Repositories;
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -63,5 +64,39 @@ public class PersonRepository : IPersonRepository
        return _dbContext.Persons
            .AnyAsync(person => person.Pin == pin && person.Status == EntityStatus.Active,
                cancellationToken);
+   }
+
+   public async Task<IEnumerable<Person>> SearchAsync(string? name, string? surname, string? pin, Gender? gender, DateTime? birthDateFrom,
+       DateTime? birthDateTo, int? cityId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+   {
+       var personsQueryable = _dbContext.Persons
+           .Include(person => person.City)
+           .AsQueryable();
+
+       if (!string.IsNullOrEmpty(name))
+           personsQueryable = personsQueryable.Where(person => person.Name == name && person.Name.Contains(name));
+
+       if (!string.IsNullOrEmpty(surname))
+           personsQueryable = personsQueryable.Where(person => person.Surname == surname &&  person.Surname.Contains(surname));
+       
+       if (!string.IsNullOrEmpty(pin))
+           personsQueryable = personsQueryable.Where(person => person.Pin == pin || person.Pin.Contains(pin));
+       
+       if (gender is not null)
+           personsQueryable = personsQueryable.Where(person => person.Gender == gender);
+       
+       if (birthDateFrom is not null)
+           personsQueryable = personsQueryable.Where(person => person.BirthDate > birthDateFrom);
+
+       if (birthDateTo is not null)
+           personsQueryable = personsQueryable.Where(person => person.BirthDate < birthDateTo);
+
+       if (cityId is not null)
+           personsQueryable = personsQueryable.Where(person => person.City.Id == cityId);
+
+       return await personsQueryable
+           .Paged(new Pagination(pageNumber, pageSize))
+           .OrderBy(person => person.Id)
+           .ToListAsync(cancellationToken);
    }
 }

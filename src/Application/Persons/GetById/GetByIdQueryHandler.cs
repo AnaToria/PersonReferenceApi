@@ -21,7 +21,7 @@ public class GetByIdQueryHandler : IQueryHandler<GetByIdQuery, PersonDto>
     {
         var person = await _unitOfWork.Persons.GetByIdAsync(request.Id, cancellationToken);
 
-        var personDto = PersonDto.Create(person, _imageService, request.LanguageCode);
+        var personDto = PersonDto.Create(person, _imageService, request.Language);
 
         return OperationResult<PersonDto>.Ok(personDto);
     }

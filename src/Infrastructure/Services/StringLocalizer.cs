@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using Application.Interfaces.Services;
+using Domain.Enums;
 using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,9 +35,9 @@ public class StringLocalizer : IStringLocalizer
         return result;
     }
     
-    public string Get(string key, string languageCode)
+    public string Get(string key, Language language)
     {
-        _localizations.TryGetValue($"{key}_{languageCode}", out var value);
+        _localizations.TryGetValue($"{key}_{language}", out var value);
 
         return value ?? DefaultLocalization;
     }

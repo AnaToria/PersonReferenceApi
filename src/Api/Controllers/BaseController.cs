@@ -2,6 +2,7 @@ using Api.Common;
 using Application.Common.Models;
 using Application.Common.Wrappers.Command;
 using Application.Common.Wrappers.Query;
+using Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,19 +22,25 @@ public class BaseController  : Controller
 
     protected Task<OperationResult<TResponse>> SendQueryAsync<TResponse>(Query<TResponse> query, CancellationToken cancellationToken)
     {
-        query.LanguageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName];
+        query.Language = GetLanguage();
         return Mediator.Send(query, cancellationToken);
     }
-    
+
     protected Task<OperationResult<TResponse>> SendCommandAsync<TResponse>(Command<TResponse> command, CancellationToken cancellationToken)
     {
-        command.LanguageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName];
+        command.Language = GetLanguage();
         return Mediator.Send(command, cancellationToken);
     }
     
     protected Task<OperationResult> SendCommandAsync(Command command, CancellationToken cancellationToken)
     {
-        command.LanguageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName];
+        command.Language = GetLanguage();
         return Mediator.Send(command, cancellationToken);
+    }
+    
+    private Language GetLanguage()
+    {
+        var languageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName].ToString();
+        return (Language) Enum.Parse(typeof(Language), languageCode, true);
     }
 }

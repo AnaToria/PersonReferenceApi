@@ -33,7 +33,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             .SelectMany(r => r.Errors)
             .Select(error =>
             {
-                var localizedValue = _stringLocalizer.Get(error.ErrorMessage, request.LanguageCode);
+                var localizedValue = _stringLocalizer.Get(error.ErrorMessage, request.Language);
                 return new ValidationError(error.PropertyName, localizedValue);
             })
             .ToList();
@@ -48,7 +48,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         if (operationResult!.ValidationErrors?.ErrorKeys.Any() == true)
         {
             operationResult.ValidationErrors.Messages = operationResult.ValidationErrors.ErrorKeys
-                .Select(error => _stringLocalizer.Get(error, request.LanguageCode))
+                .Select(error => _stringLocalizer.Get(error, request.Language))
                 .ToList();
         }
 

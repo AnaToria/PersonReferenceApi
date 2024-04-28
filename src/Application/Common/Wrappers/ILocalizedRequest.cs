@@ -1,6 +1,8 @@
+using Domain.Enums;
+
 namespace Application.Common.Wrappers;
 
 public interface ILocalizedRequest
 {
-    public string LanguageCode { get; set; }
+    public Language Language { get; set; }
 }

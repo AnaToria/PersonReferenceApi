@@ -6,6 +6,7 @@ using Application.Persons.Delete;
 using Application.Persons.DisconnectPerson;
 using Application.Persons.GetById;
 using Application.Persons.Models;
+using Application.Persons.Search;
 using Application.Persons.Update;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,13 @@ public class PersonController : BaseController
     public Task<OperationResult<PersonDto>> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetByIdQuery { Id = id };
+        return SendQueryAsync(query, cancellationToken);
+    }
+    
+    [HttpGet("search")]
+    public Task<OperationResult<IEnumerable<PersonListItemDto>>> Search([FromBody] SearchPersonsRequest request, CancellationToken cancellationToken)
+    {
+        var query = _mapper.Map<SearchPersonsQuery>(request);
         return SendQueryAsync(query, cancellationToken);
     }
     

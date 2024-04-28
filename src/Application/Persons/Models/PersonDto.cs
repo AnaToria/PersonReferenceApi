@@ -18,7 +18,7 @@ public class PersonDto
     public List<PersonPhoneNumber> PhoneNumbers { get; set; }
     public List<PersonRelationshipDto> Relationships { get; set; }
 
-    public static PersonDto Create(Person person, IImageService imageService, string languageCode)
+    public static PersonDto Create(Person person, IImageService imageService, Language language)
     {
         var imageUrl = imageService.GetImageUrl(person.Image);
 
@@ -31,13 +31,13 @@ public class PersonDto
         var city = new CityDto
         {
             Id = person.City.Id,
-            Name = languageCode == Language.Georgian ? person.City.Name : person.City.NameEn
+            Name = language == Language.Ka ? person.City.Name : person.City.NameEn
         };
 
         var relationships = person.Relationships.Select(relationship => new PersonRelationshipDto
         {
             RelationshipType = relationship.RelationshipType,
-            RelatedPerson = Create(relationship.RelatedPerson, imageService, languageCode)
+            RelatedPerson = Create(relationship.RelatedPerson, imageService, language)
         }).ToList();
 
         return new PersonDto

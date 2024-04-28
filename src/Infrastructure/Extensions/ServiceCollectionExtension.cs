@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
                 {
                     optionsBuilder.MigrationsAssembly(assemblyFullName);
                 });
+            builder.LogTo(Console.WriteLine);
         });
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
