@@ -4,7 +4,7 @@ using Application.Interfaces.Repositories;
 
 namespace Application.Persons.Delete;
 
-public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand, bool>
+public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand, b
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<OperationResult<bool>> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
+    public async Task<OperationResult> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
     {
         var person = await _unitOfWork.Persons.GetByIdAsync(request.Id, cancellationToken);
         
@@ -22,6 +22,6 @@ public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand, b
         _unitOfWork.Persons.Update(person);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new OperationResult<bool>(ResultCode.Ok, true);
+        return OperationResult.Ok();
     }
 }

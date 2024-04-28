@@ -53,7 +53,7 @@ public class PersonController : BaseController
     }
     
     [HttpDelete("delete/{id}")]
-    public Task<OperationResult<bool>> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    public Task<OperationResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new DeletePersonCommand
         {

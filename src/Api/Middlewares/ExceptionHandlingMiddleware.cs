@@ -23,12 +23,14 @@ public sealed class ExceptionHandlingMiddleware
         }
         catch (ValidationErrorException exception)
         {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(exception.Errors);
         }
         catch (Exception exception)
         {
             _logger.LogError(exception, exception.Message);
 
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             var response = new OperationResult<object>(ResultCode.InternalError, null);
             await context.Response.WriteAsJsonAsync(response);
         }
