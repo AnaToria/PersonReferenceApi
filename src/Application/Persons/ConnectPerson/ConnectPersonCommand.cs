@@ -1,5 +1,6 @@
 using Application.Common.Wrappers.Command;
 using Domain.Entities;
+using Domain.Enums;
 
 namespace Application.Persons.ConnectPerson;
 

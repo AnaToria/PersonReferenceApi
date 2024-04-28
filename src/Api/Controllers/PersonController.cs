@@ -4,6 +4,7 @@ using Application.Persons.Add;
 using Application.Persons.ConnectPerson;
 using Application.Persons.Delete;
 using Application.Persons.DisconnectPerson;
+using Application.Persons.GetAll;
 using Application.Persons.GetById;
 using Application.Persons.Models;
 using Application.Persons.Search;
@@ -27,6 +28,13 @@ public class PersonController : BaseController
     public Task<OperationResult<PersonDto>> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetByIdQuery { Id = id };
+        return SendQueryAsync(query, cancellationToken);
+    }
+    
+    [HttpGet("all")]
+    public Task<OperationResult<IEnumerable<PersonListItemDto>>> All([FromBody] GetAllPersonsRequest request, CancellationToken cancellationToken)
+    {
+        var query = _mapper.Map<GetAllPersonsQuery>(request);
         return SendQueryAsync(query, cancellationToken);
     }
     

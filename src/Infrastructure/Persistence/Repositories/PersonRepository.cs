@@ -15,11 +15,21 @@ public class PersonRepository : IPersonRepository
         _dbContext = dbContext;
     }
     
-    public Task<List<Person>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default) 
+    public Task<List<Person>> GetAllAsync(int pageNumber, int pageSize, string? searchText, CancellationToken cancellationToken = default)
     {
-       return _dbContext.Persons
-           .Include(person => person.PhoneNumbers)
-           .Paged(pageNumber, pageSize)
+        IQueryable<Person> query = _dbContext.Persons
+            .Include(person => person.City);
+        
+       if (!string.IsNullOrEmpty(searchText))
+       {
+           string searchTextLower = searchText.ToLower();
+           
+           query = query.Where(person => person.Name.ToLower().Contains(searchTextLower)
+                                                 || person.Surname.ToLower().Contains(searchTextLower)
+                                                 || person.Pin.Contains(searchTextLower));
+       }
+       
+       return query.Paged(pageNumber, pageSize)
            .ToListAsync(cancellationToken);
     }
 

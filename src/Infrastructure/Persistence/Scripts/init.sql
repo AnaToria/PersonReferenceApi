@@ -27,17 +27,17 @@ create table dbo.Persons
     Id        int identity
         constraint PK_Persons
             primary key,
-    Name      nvarchar(50)  not null,
-    Surname   nvarchar(50)  not null,
-    Gender    nvarchar(max) not null,
-    Pin       nvarchar(11)  not null,
-    BirthDate datetime2     not null,
-    Image     nvarchar(max),
-    CityId    int           not null
+    Name      nvarchar(50)              not null,
+    Surname   nvarchar(50)              not null,
+    Gender    nvarchar(max)             not null,
+    Pin       nvarchar(11)              not null,
+    BirthDate date                      not null,
+    Image     nvarchar(max) default N'' not null,
+    CityId    int                       not null
         constraint FK_Persons_Cities_CityId
             references Cities
             on delete cascade,
-    Status    nvarchar(20)  not null
+    Status    nvarchar(20)              not null
 )
     go
 

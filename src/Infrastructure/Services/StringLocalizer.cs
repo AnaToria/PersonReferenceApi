@@ -37,7 +37,7 @@ public class StringLocalizer : IStringLocalizer
     
     public string Get(string key, Language language)
     {
-        _localizations.TryGetValue($"{key}_{language}", out var value);
+        _localizations.TryGetValue($"{key}_{language.ToString().ToLower()}", out var value);
 
         return value ?? DefaultLocalization;
     }

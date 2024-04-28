@@ -11,5 +11,6 @@ internal static partial class MessageKeys
         public const string PersonNotExistsWithId = "person_not_exists_with_id";
         public const string PersonAlreadyConnected = "person_already_connected";
         public const string PersonNotConnected = "person_not_connected";
+        public const string PersonCannotBeConnected = "person_can_not_be_connected";
     }
 }

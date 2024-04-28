@@ -24,9 +24,19 @@ public class ConnectPersonCommandValidator : AbstractValidator<ConnectPersonComm
             .WithMessage(MessageKeys.General.NonEmpty)
             .MustAsync(async (id, cancellationToken) =>
                 await unitOfWork.Persons.ExistsWithIdAsync(id, cancellationToken: cancellationToken))
-            .WithMessage(MessageKeys.Person.PersonNotExistsWithId);
+            .WithMessage(MessageKeys.Person.PersonNotExistsWithId)
+            .Custom((personIdToConnectWith, context) =>
+            {
+                var personId = context.InstanceToValidate.PersonId;
+                if (personIdToConnectWith == personId)
+                {
+                    context.AddFailure(MessageKeys.Person.PersonCannotBeConnected);
+                }
+            });;
 
         RuleFor(command => command.RelationshipType)
             .IsInEnum();
+        
+        
     }
 }

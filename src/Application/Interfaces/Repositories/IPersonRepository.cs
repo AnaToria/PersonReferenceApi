@@ -5,7 +5,7 @@ namespace Application.Interfaces.Repositories;
 
 public interface IPersonRepository
 {
-    Task<List<Person>> GetAllAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+    Task<List<Person>> GetAllAsync(int pageNumber, int pageSize, string? searchText, CancellationToken cancellationToken = default);
     Task<Person?> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     Task<IEnumerable<Person>> SearchAsync(string? name,
         string? surname, 

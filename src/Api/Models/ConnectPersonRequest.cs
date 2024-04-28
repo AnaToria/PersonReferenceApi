@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Domain.Entities;
+using Domain.Enums;
 
 namespace Api.Models;
 
