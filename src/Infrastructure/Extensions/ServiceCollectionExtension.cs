@@ -13,8 +13,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<PersonReferenceDbContext>(builder
-            =>
+        services.AddDbContext<PersonReferenceDbContext>(builder =>
         {
             builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection"));
             builder.LogTo(Console.WriteLine);
