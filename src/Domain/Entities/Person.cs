@@ -36,4 +36,24 @@ public class Person : BaseEntity
             PhoneNumbers = phoneNumbers,
             Status = EntityStatus.Draft
         };
+
+    public bool IsConnectedTo(Person person)
+    {
+        return Relationships
+            .Any(relationship => relationship.RelatedPerson.Id == person.Id);
+    }
+    
+    public void Connect(Person personToConnect, RelationshipType relationshipType)
+    {
+        var relationship = new PersonRelationship(relationshipType, this, personToConnect);
+        
+        Relationships.Add(relationship);
+    }
+    
+    public void Disconnect(Person personToConnect)
+    {
+        var personRelationship = Relationships.First(relationship => relationship.RelatedPerson.Id == personToConnect.Id);
+        
+        Relationships.Remove(personRelationship);
+    }
 }

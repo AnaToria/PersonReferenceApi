@@ -8,7 +8,8 @@ using MediatR;
 namespace Application.Common.PipelineBehavior;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
-    where TRequest : ILocalizedRequest
+    where TRequest : ILocalizedRequest 
+    where TResponse : class
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly IStringLocalizer _stringLocalizer;
@@ -40,6 +41,17 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         if (errors.Any())
             throw new ValidationErrorException(errors);
         
-        return await next();
+        var response = await next();
+
+        var operationResult = response as OperationResult;
+        
+        if (operationResult!.ValidationErrors?.ErrorKeys.Any() == true)
+        {
+            operationResult.ValidationErrors.Messages = operationResult.ValidationErrors.ErrorKeys
+                .Select(error => _stringLocalizer.Get(error, request.LanguageCode))
+                .ToList();
+        }
+
+        return (operationResult as TResponse)!;
     }
 }

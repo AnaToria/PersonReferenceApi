@@ -1,5 +1,4 @@
 using Application.Common.Wrappers.Query;
-using Microsoft.AspNetCore.Http;
 
 namespace Application.Multimedia.Get;
 

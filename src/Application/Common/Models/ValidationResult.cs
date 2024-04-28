@@ -4,17 +4,18 @@ public class ValidationResult
 {
     public ValidationResult(string error)
     {
-        Messages = new []{ error };
+        ErrorKeys = new []{ error };
         IsValid = false;
     }
     
     public ValidationResult(IEnumerable<string> errors)
     {
-        Messages = errors;
+        ErrorKeys = errors;
         IsValid = false;
     }
     
-    public IEnumerable<string> Messages { get; }
+    internal IEnumerable<string> ErrorKeys { get; }
+    public IEnumerable<string> Messages { get; set; }
     public bool IsValid { get; }
 
     public static implicit operator ValidationResult(string message) => new(message);

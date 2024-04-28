@@ -9,3 +9,8 @@ public abstract class Command<TResponse> : IRequest<OperationResult<TResponse>>,
 {
     public string LanguageCode { get; set; }
 }
+
+public abstract class Command : IRequest<OperationResult>, ICommand
+{
+    public string LanguageCode { get; set; }
+}

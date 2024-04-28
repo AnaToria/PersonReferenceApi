@@ -1,15 +1,28 @@
 namespace Application.Common.Models;
 
-public class OperationResult<T>
+public class OperationResult
 {
-    public ResultCode ResultCode { get; set; }
-    public ValidationResult? ValidationErrors { get; set; }
-    public T? Data { get; set; }
-
-    public OperationResult(ResultCode resultCode, T? data, ValidationResult? validationErrors = null)
+    public OperationResult(ResultCode resultCode, ValidationResult? validationErrors)
     {
         ResultCode = resultCode;
         ValidationErrors = validationErrors;
+    }
+
+    public static OperationResult Ok() => new(ResultCode.Ok, null);
+    public static OperationResult BadRequest(string error) => new(ResultCode.BadRequest, 
+        new ValidationResult(error));
+
+    public ResultCode ResultCode { get; protected set; }
+    public ValidationResult? ValidationErrors { get; protected set; }
+}
+
+public class OperationResult<T> : OperationResult
+{
+    public T? Data { get; }
+
+    public OperationResult(ResultCode resultCode, T? data, ValidationResult? validationErrors = null) 
+        : base(resultCode, validationErrors)
+    {
         Data = data;
     }
     

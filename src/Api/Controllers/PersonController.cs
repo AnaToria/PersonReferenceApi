@@ -1,7 +1,9 @@
 using Api.Models;
 using Application.Common.Models;
 using Application.Persons.Add;
+using Application.Persons.ConnectPerson;
 using Application.Persons.Delete;
+using Application.Persons.DisconnectPerson;
 using Application.Persons.Update;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +42,22 @@ public class PersonController : BaseController
         {
             Id = id
         };
+        return SendCommandAsync(command, cancellationToken);
+    }
+
+    [HttpPost("connect")]
+    public Task<OperationResult> Connect([FromBody] ConnectPersonRequest request, CancellationToken cancellationToken)
+    {
+        var command = _mapper.Map<ConnectPersonCommand>(request);
+
+        return SendCommandAsync(command, cancellationToken);
+    }
+    
+    [HttpPost("disconnect")]
+    public Task<OperationResult> Disconnect([FromBody] DisconnectPersonRequest request, CancellationToken cancellationToken)
+    {
+        var command = _mapper.Map<DisconnectPersonCommand>(request);
+
         return SendCommandAsync(command, cancellationToken);
     }
 }

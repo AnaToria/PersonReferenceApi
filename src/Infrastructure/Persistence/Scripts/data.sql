@@ -48,3 +48,7 @@ INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, Loca
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_exists_with_id', N'en', N'Person does not exists');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'file_type_not_allowed', N'ka', N'ფაილის ფორმატი არაა დასაშველი');
 INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'file_type_not_allowed', N'en', N'File formati is now allowed');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_already_connected', N'ka', N'მომხმარებლები უკვე დაკავშირებულები არიან');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_already_connected', N'en', N'Persons are already connected');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_connected', N'ka', N'მომხარებლები არ არიან დაკავშირებული');
+INSERT INTO PersonReferenceDB.dbo.Localizations (ResourceKey, LanguageCode, LocalizedValue) VALUES (N'person_not_connected', N'en', N'Persons are not connected');

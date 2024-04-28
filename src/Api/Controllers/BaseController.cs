@@ -30,4 +30,10 @@ public class BaseController  : Controller
         command.LanguageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName];
         return Mediator.Send(command, cancellationToken);
     }
+    
+    protected Task<OperationResult> SendCommandAsync(Command command, CancellationToken cancellationToken)
+    {
+        command.LanguageCode = HttpContextAccessor.HttpContext.Request.Headers[Constants.LanguageHeaderName];
+        return Mediator.Send(command, cancellationToken);
+    }
 }

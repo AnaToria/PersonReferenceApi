@@ -26,7 +26,9 @@ public class PersonRepository : IPersonRepository
    {
        return _dbContext.Persons
            .Include(person => person.PhoneNumbers)
-           .FirstOrDefaultAsync(person => person.Id == id, cancellationToken);
+           .Include(person => person.Relationships)
+           .FirstOrDefaultAsync(person => person.Id == id && person.Status == EntityStatus.Active,
+               cancellationToken);
    }
 
    public async Task AddAsync(Person entity, CancellationToken cancellationToken = default)
@@ -49,11 +51,15 @@ public class PersonRepository : IPersonRepository
 
    public Task<bool> ExistsWithIdAsync(int id, CancellationToken cancellationToken = default)
    {
-       return _dbContext.Persons.AnyAsync(person => person.Id == id, cancellationToken);
+       return _dbContext.Persons
+           .AnyAsync(person => person.Id == id && person.Status == EntityStatus.Active,
+               cancellationToken);
    }
 
    public Task<bool> ExistsWithPinAsync(string pin, CancellationToken cancellationToken = default)
    {
-       return _dbContext.Persons.AnyAsync(person => person.Pin == pin, cancellationToken: cancellationToken);
+       return _dbContext.Persons
+           .AnyAsync(person => person.Pin == pin && person.Status == EntityStatus.Active,
+               cancellationToken);
    }
 }
