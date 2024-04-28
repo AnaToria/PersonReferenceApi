@@ -4,10 +4,6 @@ using Application.Extensions;
 using Infrastructure.Extensions;
 using Serilog;
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("serilog.json")
-    .Build();
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("serilog.json");
