@@ -13,8 +13,11 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<PersonReferenceDbContext>(builder 
-            => builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection")));
+        services.AddDbContext<PersonReferenceDbContext>(builder =>
+        {
+            builder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection"));
+            builder.LogTo(Console.WriteLine);
+        });
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSingleton<IImageService, ImageService>();
