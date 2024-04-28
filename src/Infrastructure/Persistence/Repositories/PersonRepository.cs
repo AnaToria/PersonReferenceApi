@@ -19,7 +19,7 @@ public class PersonRepository : IPersonRepository
     {
        return _dbContext.Persons
            .Include(person => person.PhoneNumbers)
-           .Paged(new Pagination(pageNumber, pageSize))
+           .Paged(pageNumber, pageSize)
            .ToListAsync(cancellationToken);
     }
 
@@ -99,7 +99,7 @@ public class PersonRepository : IPersonRepository
            personsQueryable = personsQueryable.Where(person => person.City.Id == cityId);
 
        return await personsQueryable
-           .Paged(new Pagination(pageNumber, pageSize))
+           .Paged(pageNumber, pageSize)
            .OrderBy(person => person.Id)
            .ToListAsync(cancellationToken);
    }
